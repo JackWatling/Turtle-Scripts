@@ -1,3 +1,5 @@
+local height = 3
+
 function dig()
 	while turtle.detect() do
 		turtle.dig()
@@ -5,18 +7,32 @@ function dig()
 	end
 	turtle.forward()
 	turtle.digDown()
-	turtle.digUp()
-	turtle.down()
+	turtle.up()
+
+	for i = 1, height - 1, 1 do
+		turtle.up()
+		turtle.digUp()
+	end
+
+	for i = 1, height + 1, 1 do
+		turtle.down()
+	end
 end
 
 function torch()
-	turtle.up()
+	for i = 1, height - 1, 1 do
+		turtle.up()
+	end
+
 	turtle.select(1)
 	turtle.placeUp()
-	turtle.down()
+
+	for i = 1, height + 1, 1 do
+		turtle.down()
+	end
 end
 
-for i = 1, 50, 1 do
+for i = 1, 10, 1 do
 	dig()
 	if i % 5 == 0 then
 		torch()
