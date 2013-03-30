@@ -1,0 +1,18 @@
+function chop()
+  turtle.digUp()
+  turtle.up()
+end
+
+function fell()
+  turtle.dig()
+  turtle.forward()
+  while turtle.detectUp() do
+    chop()
+  end
+  while turtle.detectDown() == false do
+    turtle.down()
+  end
+  turtle.back()
+end
+
+fell()
