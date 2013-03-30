@@ -9,6 +9,16 @@ function dig()
 	turtle.down()
 end
 
+function torch()
+	turtle.up()
+	turtle.select(1)
+	turtle.placeUp()
+	turtle.down()
+end
+
 for i = 1, 50, 1 do
 	dig()
+	if i % 5 == 0 then
+		torch()
+	end
 end
