@@ -1,40 +1,74 @@
-local height = 3
+local tArgs = {...}
+
+local tunnel_distance = 20 or tArgs[1]
+local tunnel_height = 3
+local tunnel_torch = 5
+
+function refuel()
+	if turtle.getFuelLevel() < 10 then
+		local refueled = false;
+
+		print('Refueling required')
+
+		while refueled == false do
+			for i = 1, 16, 1 do
+				turtle.select(i)
+				if turtle.refuel() then
+					refueled = true;
+					break;
+				end
+			end
+			if refueled == false then
+				print("Waiting 5 seconds...")
+				os.sleep(5)
+			end
+		end
+
+		print('Refueling succeeded')
+	end
+end
 
 function dig()
 	while turtle.detect() do
 		turtle.dig()
-		os.sleep(1)
+		os.sleep(1.5)
 	end
+
 	turtle.forward()
 	turtle.digDown()
-	turtle.up()
 
-	for i = 1, height - 1, 1 do
-		turtle.up()
+	for i = 1, tunnel_height - 1, 1 do
 		turtle.digUp()
+		turtle.up()
 	end
 
-	for i = 1, height + 1, 1 do
+	if turtle.detectUp() == false then
+		turtle.select(15)
+		turtle.placeUp()
+	end
+
+	for i = 1, tunnel_height, 1 do
 		turtle.down()
 	end
+
+	turtle.down()
 end
 
 function torch()
-	for i = 1, height - 1, 1 do
+	for i = 1, tunnel_height - 1, 1 do
 		turtle.up()
 	end
-
-	turtle.select(1)
+	turtle.select(16)
 	turtle.placeUp()
-
-	for i = 1, height + 1, 1 do
+	for i = 1, tunnel_height, 1 do
 		turtle.down()
 	end
 end
 
-for i = 1, 10, 1 do
+for i = 1, tunnel_distance, 1 do
+	refuel()
 	dig()
-	if i % 5 == 0 then
+	if i % tunnel_torch == 0 then
 		torch()
 	end
 end
