@@ -1,6 +1,6 @@
 local tArgs = {...}
 
-local tunnel_distance = 20 or tArgs[1]
+local tunnel_distance = tArgs[1] or 20
 local tunnel_height = 3
 local tunnel_torch = 5
 
@@ -38,7 +38,9 @@ function dig()
 	turtle.digDown()
 
 	for i = 1, tunnel_height - 1, 1 do
-		turtle.digUp()
+		while turtle.detectUp() do
+			turtle.digUp()
+		end
 		turtle.up()
 	end
 
